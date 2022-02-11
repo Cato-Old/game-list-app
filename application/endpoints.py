@@ -19,3 +19,8 @@ async def get_game(game_id: str) -> None:
 @router.delete("/game/{game_id}/")
 async def delete_game(game_id: str) -> None:
     raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
+
+
+@router.put("/game/{game_id}/")
+async def update_game(game_id: str) -> None:
+    raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
