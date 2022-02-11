@@ -6,6 +6,7 @@ authors = ["Wojciech Oczkowski <wojciech.oczkowski@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+fastapi = "^0.73.0"
 
 [tool.poetry.dev-dependencies]
 
