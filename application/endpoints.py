@@ -7,6 +7,8 @@ from fastapi import HTTPException
 from application.controllers import AllGamesController
 from application.controllers import DeleteGameController
 from application.controllers import GetGameController
+from application.controllers import UpdateGameController
+from application.controllers import UpdateGameRequest
 from application.domain import GameId
 
 router = APIRouter()
@@ -43,5 +45,12 @@ async def delete_game(
 
 
 @router.put("/game/{game_id}/")
-async def update_game(game_id: str) -> None:
-    raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
+async def update_game(
+    game_id: str,
+    controller: UpdateGameController = Depends(),
+) -> None:
+    request = UpdateGameRequest(id=GameId(game_id))
+    try:
+        await controller.update(request)
+    except NotImplementedError:
+        raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
