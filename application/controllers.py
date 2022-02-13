@@ -10,3 +10,8 @@ class AllGamesController:
 class GetGameController:
     async def get(self, game_id: GameId) -> Game:
         raise NotImplementedError
+
+
+class DeleteGameController:
+    async def delete(self, game_id: GameId) -> None:
+        raise NotImplementedError
