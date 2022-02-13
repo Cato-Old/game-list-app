@@ -1,5 +1,12 @@
+from dataclasses import dataclass
+
 from application.domain import Game
 from application.domain import GameId
+
+
+@dataclass
+class UpdateGameRequest:
+    id: GameId
 
 
 class AllGamesController:
@@ -14,4 +21,9 @@ class GetGameController:
 
 class DeleteGameController:
     async def delete(self, game_id: GameId) -> None:
+        raise NotImplementedError
+
+
+class UpdateGameController:
+    async def update(self, request: UpdateGameRequest) -> None:
         raise NotImplementedError

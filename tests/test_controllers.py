@@ -3,7 +3,9 @@ import pytest
 from application.controllers import AllGamesController
 from application.controllers import DeleteGameController
 from application.controllers import GetGameController
+from application.controllers import UpdateGameController
 from application.domain import GameId
+from tests.factories import UpdateGameRequestFactory
 
 
 @pytest.mark.asyncio
@@ -27,3 +29,11 @@ async def test_delete_game_controller_raises_on_delete() -> None:
     game_id = GameId("foo")
     with pytest.raises(NotImplementedError):
         await controller.delete(game_id)
+
+
+@pytest.mark.asyncio
+async def test_update_game_controller_raises_on_update() -> None:
+    controller = UpdateGameController()
+    request = UpdateGameRequestFactory()
+    with pytest.raises(NotImplementedError):
+        await controller.update(request=request)
