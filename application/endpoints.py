@@ -5,6 +5,7 @@ from fastapi import Depends
 from fastapi import HTTPException
 
 from application.controllers import AllGamesController
+from application.controllers import DeleteGameController
 from application.controllers import GetGameController
 from application.domain import GameId
 
@@ -31,8 +32,14 @@ async def get_game(
 
 
 @router.delete("/game/{game_id}/")
-async def delete_game(game_id: str) -> None:
-    raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
+async def delete_game(
+    game_id: str,
+    controller: DeleteGameController = Depends(),
+) -> None:
+    try:
+        await controller.delete(GameId(game_id))
+    except NotImplementedError:
+        raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
 
 
 @router.put("/game/{game_id}/")
