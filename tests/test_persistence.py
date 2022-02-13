@@ -20,3 +20,10 @@ async def test_raises_on_get_one(repository: GameRepository) -> None:
     game_id = GameId("foo")
     with pytest.raises(NotImplementedError):
         await repository.get_one(game_id)
+
+
+@pytest.mark.asyncio
+async def test_raises_on_delete(repository: GameRepository) -> None:
+    game_id = GameId("bar")
+    with pytest.raises(NotImplementedError):
+        await repository.delete(game_id)

@@ -8,3 +8,6 @@ class GameRepository:
 
     async def get_one(self, game_id: GameId) -> Game:
         raise NotImplementedError
+
+    async def delete(self, game_id: GameId) -> None:
+        raise NotImplementedError
