@@ -251,6 +251,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "mockito"
+version = "1.3.0"
+description = "Spying framework"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "motor"
 version = "2.5.1"
 description = "Non-blocking MongoDB driver for Tornado or asyncio"
@@ -537,7 +545,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "10a9d36cb7b1bb432aece8fce7ebbface799f355619f6c1e34fa783bde68dcea"
+content-hash = "2999cf993ef545288a690398d8632f9098c25376ff5023a06aa707b9e24fe4ff"
 
 [metadata.files]
 aiodns = [
@@ -893,6 +901,10 @@ idna = [
 iniconfig = [
     {file = "iniconfig-1.1.1-py2.py3-none-any.whl", hash = "sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3"},
     {file = "iniconfig-1.1.1.tar.gz", hash = "sha256:bc3af051d7d14b2ee5ef9969666def0cd1a000e121eaea580d4a313df4b37f32"},
+]
+mockito = [
+    {file = "mockito-1.3.0-py3-none-any.whl", hash = "sha256:42acdeb632c27a1b26169995ebec935752f7511ec7d12039ac32909dd6d5a747"},
+    {file = "mockito-1.3.0.tar.gz", hash = "sha256:5d41a5f6ec0b8fc32b6d796480d4849ee5fb0ac75d12f13862f1622684f5f578"},
 ]
 motor = [
     {file = "motor-2.5.1-py3-none-any.whl", hash = "sha256:961fdceacaae2c7236c939166f66415be81be8bbb762da528386738de3a0f509"},
