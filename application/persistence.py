@@ -1,3 +1,4 @@
+from application.controllers import UpdateGameRequest
 from application.domain import Game
 from application.domain import GameId
 
@@ -10,4 +11,7 @@ class GameRepository:
         raise NotImplementedError
 
     async def delete(self, game_id: GameId) -> None:
+        raise NotImplementedError
+
+    async def update(self, request: UpdateGameRequest) -> None:
         raise NotImplementedError
