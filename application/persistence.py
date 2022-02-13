@@ -1,4 +1,4 @@
-from application.controllers import UpdateGameRequest
+from application.domain import UpdateGameRequest
 from application.domain import Game
 from application.domain import GameId
 

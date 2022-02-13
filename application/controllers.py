@@ -1,15 +1,9 @@
-from dataclasses import dataclass
-
 from fastapi import Depends
 
 from application.domain import Game
 from application.domain import GameId
+from application.domain import UpdateGameRequest
 from application.persistence import GameRepository
-
-
-@dataclass
-class UpdateGameRequest:
-    id: GameId
 
 
 class AllGamesController:

@@ -8,7 +8,7 @@ from application.controllers import AllGamesController
 from application.controllers import DeleteGameController
 from application.controllers import GetGameController
 from application.controllers import UpdateGameController
-from application.controllers import UpdateGameRequest
+from application.domain import UpdateGameRequest
 from application.domain import GameId
 
 router = APIRouter()
