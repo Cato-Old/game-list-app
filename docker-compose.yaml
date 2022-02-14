@@ -12,14 +12,28 @@ services:
       "poetry run uvicorn application.main:app --host 0.0.0.0 --port 8000",
     ]
     environment:
-      - MONGO_CONNECTION_STRING=
+      - MONGO_CONNECTION_STRING=mongodb://mongodb:27017/
       - MONGO_DB=my_games
       - MONGO_COLLECTION=games
     ports:
       - "8000:8000"
+    depends_on:
+      - mongodb
+
 
   tests:
     build:
       context: .
       dockerfile: tests.Dockerfile
     command: ["bash", "-c", "poetry run pytest"]
+    environment:
+      - MONGO_CONNECTION_STRING=mongodb://mongodb:27017/
+      - MONGO_DB=my_games
+      - MONGO_COLLECTION=games
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017"
