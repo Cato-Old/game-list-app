@@ -24,10 +24,10 @@ class GetGameController:
 
 class DeleteGameController:
     def __init__(self, repository: GameRepository = Depends()) -> None:
-        pass
+        self._repo = repository
 
     async def delete(self, game_id: GameId) -> None:
-        raise NotImplementedError
+        await self._repo.delete(game_id)
 
 
 class UpdateGameController:

@@ -2,6 +2,7 @@ from asyncio import Future
 
 import pytest
 from mockito import mock
+from mockito import verify
 from mockito import when
 
 from application.controllers import AllGamesController
@@ -9,7 +10,6 @@ from application.controllers import DeleteGameController
 from application.controllers import GetGameController
 from application.controllers import UpdateGameController
 from application.domain import Game
-from application.domain import GameId
 from application.persistence import GameRepository
 from tests.factories import GameFactory
 from tests.factories import UpdateGameRequestFactory
@@ -30,6 +30,12 @@ def setup_get_one(repository: GameRepository, expected: Game) -> None:
     coroutine = Future()
     coroutine.set_result(expected)
     when(repository).get_one(expected.id).thenReturn(coroutine)
+
+
+def setup_delete(repository: GameRepository, expected: Game) -> None:
+    coroutine = Future()
+    coroutine.set_result(None)
+    when(repository).delete(expected.id).thenReturn(coroutine)
 
 
 @pytest.mark.asyncio
@@ -58,10 +64,11 @@ async def test_get_game_controller_raises_on_get(
 async def test_delete_game_controller_raises_on_delete(
     repository: GameRepository,
 ) -> None:
+    expected = GameFactory()
+    setup_delete(repository, expected)
     controller = DeleteGameController(repository=repository)
-    game_id = GameId("foo")
-    with pytest.raises(NotImplementedError):
-        await controller.delete(game_id)
+    await controller.delete(expected.id)
+    verify(repository).delete(...)
 
 
 @pytest.mark.asyncio
