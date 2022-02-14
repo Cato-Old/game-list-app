@@ -45,7 +45,7 @@ def setup_update(repository: GameRepository, req: UpdateGameRequest) -> None:
     when(repository).update(req).thenReturn(coroutine)
 
 
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_all_games_controller_raises_on_get_all(
     repository: GameRepository,
 ) -> None:
@@ -56,7 +56,7 @@ async def test_all_games_controller_raises_on_get_all(
     assert expected == actual
 
 
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_get_game_controller_raises_on_get(
     repository: GameRepository,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_get_game_controller_raises_on_get(
     assert expected == actual
 
 
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_delete_game_controller_raises_on_delete(
     repository: GameRepository,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_delete_game_controller_raises_on_delete(
     verify(repository).delete(...)
 
 
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_update_game_controller_raises_on_update(
     repository: GameRepository,
 ) -> None:
