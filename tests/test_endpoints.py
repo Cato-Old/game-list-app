@@ -16,9 +16,9 @@ async def client() -> AsyncClient:
 
 
 @pytest.mark.anyio
-async def test_returns_501_on_get_all_games(client: AsyncClient) -> None:
+async def test_returns_200_on_get_all_games(client: AsyncClient) -> None:
     result = await client.get("/games/")
-    assert HTTPStatus.NOT_IMPLEMENTED == result.status_code
+    assert HTTPStatus.OK == result.status_code
 
 
 @pytest.mark.anyio

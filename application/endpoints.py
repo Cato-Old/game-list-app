@@ -1,9 +1,11 @@
+from dataclasses import asdict
 from http import HTTPStatus
 
 from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import HTTPException
 
+from application import models
 from application.controllers import AllGamesController
 from application.controllers import DeleteGameController
 from application.controllers import GetGameController
@@ -15,11 +17,9 @@ router = APIRouter()
 
 
 @router.get("/games/")
-async def get_all_games(controller: AllGamesController = Depends()) -> None:
-    try:
-        await controller.get_all()
-    except NotImplementedError:
-        raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
+async def get_all_games(controller: AllGamesController = Depends()) -> list[models.Game]:
+    games = await controller.get_all()
+    return [models.Game(**asdict(g)) for g in games]
 
 
 @router.post("/game/{game_id}/")
