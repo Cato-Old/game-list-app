@@ -262,7 +262,7 @@ python-versions = "*"
 name = "motor"
 version = "2.5.1"
 description = "Non-blocking MongoDB driver for Tornado or asyncio"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.5.2"
 
@@ -352,7 +352,7 @@ email = ["email-validator (>=1.0.3)"]
 name = "pymongo"
 version = "3.12.3"
 description = "Python driver for MongoDB <http://www.mongodb.org>"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -545,7 +545,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "2999cf993ef545288a690398d8632f9098c25376ff5023a06aa707b9e24fe4ff"
+content-hash = "ee743100fea7ee613a4ad6f777479ed91ed1674b1ce9cabbf431130ca88be719"
 
 [metadata.files]
 aiodns = [
