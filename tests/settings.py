@@ -1,0 +1,3 @@
+SETTINGS = {
+    "MONGO_DB": "",
+}

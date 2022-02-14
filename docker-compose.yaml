@@ -11,6 +11,8 @@ services:
       "-c",
       "poetry run uvicorn application.main:app --host 0.0.0.0 --port 8000",
     ]
+    environment:
+      - MONGO_DB=mysql://root:example@db/wo-test
     ports:
       - "8000:8000"
 
