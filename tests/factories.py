@@ -1,7 +1,7 @@
 from factory import Factory
 from factory import Faker
 
-from application.controllers import UpdateGameRequest
+from application.domain import UpdateGameRequest
 from application.domain import Game
 
 
