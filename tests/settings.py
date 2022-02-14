@@ -1,3 +1,5 @@
 SETTINGS = {
-    "MONGO_DB": "",
+    "MONGO_CONNECTION_STRING": "",
+    "MONGO_DB": "tests",
+    "MONGO_COLLECTION": "games",
 }
