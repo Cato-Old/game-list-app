@@ -1,6 +1,4 @@
 import pytest
-import pytest_asyncio
-from motor.motor_asyncio import AsyncIOMotorClient
 from motor.motor_asyncio import AsyncIOMotorCollection
 
 from application.dependencies import get_mongo_client
