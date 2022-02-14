@@ -26,6 +26,12 @@ def setup_get_all(repository: GameRepository, expected: list[Game]) -> None:
     when(repository).get_all().thenReturn(coroutine)
 
 
+def setup_get_one(repository: GameRepository, expected: Game) -> None:
+    coroutine = Future()
+    coroutine.set_result(expected)
+    when(repository).get_one(expected.id).thenReturn(coroutine)
+
+
 @pytest.mark.asyncio
 async def test_all_games_controller_raises_on_get_all(
     repository: GameRepository,
@@ -41,10 +47,11 @@ async def test_all_games_controller_raises_on_get_all(
 async def test_get_game_controller_raises_on_get(
     repository: GameRepository,
 ) -> None:
+    expected = GameFactory()
+    setup_get_one(repository, expected)
     controller = GetGameController(repository=repository)
-    game_id = GameId("foo")
-    with pytest.raises(NotImplementedError):
-        await controller.get(game_id)
+    actual = await controller.get(expected.id)
+    assert expected == actual
 
 
 @pytest.mark.asyncio

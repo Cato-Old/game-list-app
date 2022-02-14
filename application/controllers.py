@@ -19,7 +19,7 @@ class GetGameController:
         self._repo = repository
 
     async def get(self, game_id: GameId) -> Game:
-        raise NotImplementedError
+        return await self._repo.get_one(game_id)
 
 
 class DeleteGameController:
