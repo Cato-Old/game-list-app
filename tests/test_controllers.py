@@ -10,6 +10,7 @@ from application.controllers import DeleteGameController
 from application.controllers import GetGameController
 from application.controllers import UpdateGameController
 from application.domain import Game
+from application.domain import UpdateGameRequest
 from application.persistence import GameRepository
 from tests.factories import GameFactory
 from tests.factories import UpdateGameRequestFactory
@@ -32,10 +33,16 @@ def setup_get_one(repository: GameRepository, expected: Game) -> None:
     when(repository).get_one(expected.id).thenReturn(coroutine)
 
 
-def setup_delete(repository: GameRepository, expected: Game) -> None:
+def setup_delete(repository: GameRepository, game: Game) -> None:
     coroutine = Future()
     coroutine.set_result(None)
-    when(repository).delete(expected.id).thenReturn(coroutine)
+    when(repository).delete(game.id).thenReturn(coroutine)
+
+
+def setup_update(repository: GameRepository, req: UpdateGameRequest) -> None:
+    coroutine = Future()
+    coroutine.set_result(None)
+    when(repository).update(req).thenReturn(coroutine)
 
 
 @pytest.mark.asyncio
@@ -75,7 +82,8 @@ async def test_delete_game_controller_raises_on_delete(
 async def test_update_game_controller_raises_on_update(
     repository: GameRepository,
 ) -> None:
-    controller = UpdateGameController(repository=repository)
     request = UpdateGameRequestFactory()
-    with pytest.raises(NotImplementedError):
-        await controller.update(request=request)
+    setup_update(repository, request)
+    controller = UpdateGameController(repository=repository)
+    await controller.update(request=request)
+    verify(repository).update(...)
