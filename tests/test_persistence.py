@@ -3,6 +3,8 @@ import pytest_asyncio
 from motor.motor_asyncio import AsyncIOMotorClient
 from motor.motor_asyncio import AsyncIOMotorCollection
 
+from application.dependencies import get_mongo_client
+from application.dependencies import setup_mongo_client
 from application.domain import GameId
 from application.persistence import GameRepository
 from application.settings import Settings
@@ -10,11 +12,10 @@ from tests.factories import UpdateGameRequestFactory
 
 
 @pytest.fixture
-async def collection(
-    settings: Settings,
-    motor_client: AsyncIOMotorClient,
-) -> AsyncIOMotorCollection:
-    db = motor_client[settings.mongo_db]
+async def collection(settings: Settings) -> AsyncIOMotorCollection:
+    setup_mongo_client()
+    client = get_mongo_client()
+    db = client[settings.mongo_db]
     return db[settings.mongo_collection]
 
 
