@@ -1,12 +1,17 @@
+from asyncio import Future
+
 import pytest
 from mockito import mock
+from mockito import when
 
 from application.controllers import AllGamesController
 from application.controllers import DeleteGameController
 from application.controllers import GetGameController
 from application.controllers import UpdateGameController
+from application.domain import Game
 from application.domain import GameId
 from application.persistence import GameRepository
+from tests.factories import GameFactory
 from tests.factories import UpdateGameRequestFactory
 
 
@@ -15,13 +20,21 @@ def repository() -> GameRepository:
     return mock(GameRepository)
 
 
+def setup_get_all(repository: GameRepository, expected: list[Game]) -> None:
+    coroutine = Future()
+    coroutine.set_result(expected)
+    when(repository).get_all().thenReturn(coroutine)
+
+
 @pytest.mark.asyncio
 async def test_all_games_controller_raises_on_get_all(
     repository: GameRepository,
 ) -> None:
+    expected = GameFactory.build_batch(5)
+    setup_get_all(repository, expected)
     controller = AllGamesController(repository=repository)
-    with pytest.raises(NotImplementedError):
-        await controller.get_all()
+    actual = await controller.get_all()
+    assert expected == actual
 
 
 @pytest.mark.asyncio

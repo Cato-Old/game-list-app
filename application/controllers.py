@@ -11,7 +11,7 @@ class AllGamesController:
         self._repo = repository
 
     async def get_all(self) -> list[Game]:
-        raise NotImplementedError
+        return await self._repo.get_all()
 
 
 class GetGameController:
