@@ -32,9 +32,16 @@ async def collection(
 
 
 @pytest.mark.anyio
-async def test_returns_200_on_get_all_games(client: AsyncClient) -> None:
+async def test_returns_200_on_get_all_games(
+    client: AsyncClient,
+    collection: AsyncIOMotorCollection,
+) -> None:
+    games = GameFactory.build_batch(10)
+    serialized = [models.Game(**asdict(g)).dict() for g in games]
+    await collection.insert_many(serialized)
     result = await client.get("/games/")
     assert HTTPStatus.OK == result.status_code
+    assert [models.Game(**asdict(g)).dict() for g in games] == result.json()
 
 
 @pytest.mark.anyio
