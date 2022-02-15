@@ -46,7 +46,7 @@ def setup_update(repository: GameRepository, req: UpdateGameRequest) -> None:
 
 
 @pytest.mark.anyio
-async def test_all_games_controller_raises_on_get_all(
+async def test_all_games_controller_returns_on_get_all(
     repository: GameRepository,
 ) -> None:
     expected = GameFactory.build_batch(5)
@@ -57,7 +57,7 @@ async def test_all_games_controller_raises_on_get_all(
 
 
 @pytest.mark.anyio
-async def test_get_game_controller_raises_on_get(
+async def test_get_game_controller_returns_on_get(
     repository: GameRepository,
 ) -> None:
     expected = GameFactory()
@@ -68,7 +68,7 @@ async def test_get_game_controller_raises_on_get(
 
 
 @pytest.mark.anyio
-async def test_delete_game_controller_raises_on_delete(
+async def test_delete_game_controller_deletes_on_delete(
     repository: GameRepository,
 ) -> None:
     expected = GameFactory()
@@ -79,7 +79,7 @@ async def test_delete_game_controller_raises_on_delete(
 
 
 @pytest.mark.anyio
-async def test_update_game_controller_raises_on_update(
+async def test_update_game_controller_updates_on_update(
     repository: GameRepository,
 ) -> None:
     request = UpdateGameRequestFactory()
