@@ -26,7 +26,7 @@ class GameRepository:
         return Game(**model.dict())
 
     async def delete(self, game_id: GameId) -> None:
-        raise NotImplementedError
+        await self._collection.delete_one({"id": game_id})
 
     async def update(self, request: UpdateGameRequest) -> None:
         raise NotImplementedError

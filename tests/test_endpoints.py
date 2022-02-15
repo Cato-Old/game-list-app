@@ -57,10 +57,10 @@ async def test_returns_200_on_get_game(
 
 
 @pytest.mark.anyio
-async def test_returns_501_on_delete_game(client: AsyncClient) -> None:
+async def test_returns_200_on_delete_game(client: AsyncClient) -> None:
     game = GameFactory()
     result = await client.delete(f"/game/{game.id}/")
-    assert HTTPStatus.NOT_IMPLEMENTED == result.status_code
+    assert HTTPStatus.OK == result.status_code
 
 
 @pytest.mark.anyio

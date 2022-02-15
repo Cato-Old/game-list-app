@@ -6,7 +6,6 @@ from motor.motor_asyncio import AsyncIOMotorCollection
 
 from application.dependencies import get_mongo_client
 from application.dependencies import setup_mongo_client
-from application.domain import GameId
 from application import models
 from application.persistence import GameRepository
 from application.settings import Settings
@@ -56,10 +55,20 @@ async def test_returns_game_on_get_one(
 
 
 @pytest.mark.anyio
-async def test_raises_on_delete(repository: GameRepository) -> None:
-    game_id = GameId("bar")
-    with pytest.raises(NotImplementedError):
-        await repository.delete(game_id)
+async def test_deletes_game_on_delete(
+    repository: GameRepository,
+    collection: AsyncIOMotorCollection,
+) -> None:
+    games = GameFactory.build_batch(10)
+    game_models = [models.Game(**asdict(g)) for g in games]
+    await collection.insert_many(m.dict() for m in game_models)
+    game_to_delete = games[0]
+    await repository.delete(game_to_delete.id)
+    expected = [
+        models.Game(**asdict(g)) for g in games if g.id != game_to_delete.id
+    ]
+    actual = collection.find({})
+    assert expected == [models.Game(**g) async for g in actual]
 
 
 @pytest.mark.anyio
