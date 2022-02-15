@@ -1,8 +1,10 @@
 import asyncio
 import os
 
+from motor.motor_asyncio import AsyncIOMotorClient
 from pytest import fixture
 
+from application.dependencies import dependencies
 from application.settings import Settings
 from tests.settings import SETTINGS
 
@@ -22,3 +24,8 @@ def event_loop():
 @fixture
 def settings() -> Settings:
     return Settings()
+
+
+@fixture
+def motor_client() -> AsyncIOMotorClient:
+    return dependencies["mongo_client"]

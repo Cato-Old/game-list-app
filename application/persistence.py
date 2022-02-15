@@ -21,7 +21,9 @@ class GameRepository:
         return [Game(**m.dict()) for m in game_models]
 
     async def get_one(self, game_id: GameId) -> Game:
-        raise NotImplementedError
+        result = await self._collection.find_one({"id": game_id})
+        model = models.Game.parse_obj(result)
+        return Game(**model.dict())
 
     async def delete(self, game_id: GameId) -> None:
         raise NotImplementedError

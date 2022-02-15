@@ -44,10 +44,15 @@ async def test_returns_all_games_on_get_all(
 
 
 @pytest.mark.anyio
-async def test_raises_on_get_one(repository: GameRepository) -> None:
-    game_id = GameId("foo")
-    with pytest.raises(NotImplementedError):
-        await repository.get_one(game_id)
+async def test_returns_game_on_get_one(
+    repository: GameRepository,
+    collection: AsyncIOMotorCollection,
+) -> None:
+    expected = GameFactory()
+    game = models.Game(**asdict(expected))
+    await collection.insert_one(game.dict())
+    actual = await repository.get_one(expected.id)
+    assert expected == actual
 
 
 @pytest.mark.anyio
