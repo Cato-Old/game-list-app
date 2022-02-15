@@ -28,7 +28,7 @@ services:
     command: ["bash", "-c", "poetry run pytest"]
     environment:
       - MONGO_CONNECTION_STRING=mongodb://mongodb:27017/
-      - MONGO_DB=my_games
+      - MONGO_DB=my_test_games
       - MONGO_COLLECTION=games
     depends_on:
       - mongodb
