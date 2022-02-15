@@ -1,36 +1,37 @@
+from dataclasses import asdict
 from http import HTTPStatus
 
 from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import HTTPException
 
+from application import models
 from application.controllers import AllGamesController
 from application.controllers import DeleteGameController
 from application.controllers import GetGameController
 from application.controllers import UpdateGameController
 from application.domain import UpdateGameRequest
 from application.domain import GameId
+from application.models import GamePayload
 
 router = APIRouter()
 
 
 @router.get("/games/")
-async def get_all_games(controller: AllGamesController = Depends()) -> None:
-    try:
-        await controller.get_all()
-    except NotImplementedError:
-        raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
+async def get_all_games(
+    controller: AllGamesController = Depends(),
+) -> list[models.Game]:
+    games = await controller.get_all()
+    return [models.Game(**asdict(g)) for g in games]
 
 
 @router.post("/game/{game_id}/")
 async def get_game(
     game_id: str,
     controller: GetGameController = Depends(),
-) -> None:
-    try:
-        await controller.get(GameId(game_id))
-    except NotImplementedError:
-        raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
+) -> models.Game:
+    game = await controller.get(GameId(game_id))
+    return models.Game(**asdict(game))
 
 
 @router.delete("/game/{game_id}/")
@@ -38,18 +39,16 @@ async def delete_game(
     game_id: str,
     controller: DeleteGameController = Depends(),
 ) -> None:
-    try:
-        await controller.delete(GameId(game_id))
-    except NotImplementedError:
-        raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
+    await controller.delete(GameId(game_id))
 
 
 @router.put("/game/{game_id}/")
 async def update_game(
     game_id: str,
+    payload: GamePayload,
     controller: UpdateGameController = Depends(),
 ) -> None:
-    request = UpdateGameRequest(id=GameId(game_id))
+    request = UpdateGameRequest(id=GameId(game_id), **payload.dict())
     try:
         await controller.update(request)
     except NotImplementedError:
