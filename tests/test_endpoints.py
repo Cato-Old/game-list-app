@@ -76,7 +76,9 @@ async def test_returns_200_on_delete_game(
 
 
 @pytest.mark.anyio
-async def test_returns_501_on_update_game(client: AsyncClient) -> None:
+async def test_returns_200_on_update_game(client: AsyncClient) -> None:
     game = GameFactory()
-    result = await client.put(f"/game/{game.id}/")
+    params = {k: v for k, v in asdict(game).items() if k != "id"}
+    payload = models.GamePayload(**params).dict()
+    result = await client.put(f"/game/{game.id}/", json=payload)
     assert HTTPStatus.NOT_IMPLEMENTED == result.status_code

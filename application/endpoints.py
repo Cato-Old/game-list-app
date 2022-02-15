@@ -12,6 +12,7 @@ from application.controllers import GetGameController
 from application.controllers import UpdateGameController
 from application.domain import UpdateGameRequest
 from application.domain import GameId
+from application.models import GamePayload
 
 router = APIRouter()
 
@@ -44,9 +45,10 @@ async def delete_game(
 @router.put("/game/{game_id}/")
 async def update_game(
     game_id: str,
+    payload: GamePayload,
     controller: UpdateGameController = Depends(),
 ) -> None:
-    request = UpdateGameRequest(id=GameId(game_id))
+    request = UpdateGameRequest(id=GameId(game_id), **payload.dict())
     try:
         await controller.update(request)
     except NotImplementedError:
