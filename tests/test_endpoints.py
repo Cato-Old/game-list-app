@@ -12,6 +12,7 @@ from application.dependencies import get_mongo_db_collection
 from application.main import app
 from application.settings import Settings
 from tests.factories import GameFactory
+from tests.factories import UpdateGameRequestFactory
 
 
 @pytest.fixture
@@ -76,9 +77,16 @@ async def test_returns_200_on_delete_game(
 
 
 @pytest.mark.anyio
-async def test_returns_200_on_update_game(client: AsyncClient) -> None:
+async def test_returns_200_on_update_game(
+    client: AsyncClient,
+    collection: AsyncIOMotorCollection,
+) -> None:
     game = GameFactory()
-    params = {k: v for k, v in asdict(game).items() if k != "id"}
+    await collection.insert_one(models.Game(**asdict(game)).dict())
+    request = UpdateGameRequestFactory()
+    params = {k: v for k, v in asdict(request).items() if k != "id"}
     payload = models.GamePayload(**params).dict()
     result = await client.put(f"/game/{game.id}/", json=payload)
+    expected_in_db = await collection.find_one({"id": game.id})
     assert HTTPStatus.OK == result.status_code
+    assert request.title == expected_in_db["title"]
