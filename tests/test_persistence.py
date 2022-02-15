@@ -72,7 +72,13 @@ async def test_deletes_game_on_delete(
 
 
 @pytest.mark.anyio
-async def test_raises_on_update(repository: GameRepository) -> None:
-    request = UpdateGameRequestFactory()
-    with pytest.raises(NotImplementedError):
-        await repository.update(request)
+async def test_update_game_on_update(
+    repository: GameRepository,
+    collection: AsyncIOMotorCollection,
+) -> None:
+    game = GameFactory()
+    request = UpdateGameRequestFactory(id=game.id)
+    await collection.insert_one(models.Game(**asdict(game)).dict())
+    await repository.update(request)
+    expected = await collection.find_one({"id": game.id})
+    assert request.title == expected["title"]

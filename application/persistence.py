@@ -1,3 +1,5 @@
+from dataclasses import asdict
+
 from fastapi import Depends
 from motor.motor_asyncio import AsyncIOMotorCollection
 
@@ -29,4 +31,9 @@ class GameRepository:
         await self._collection.delete_one({"id": game_id})
 
     async def update(self, request: UpdateGameRequest) -> None:
-        raise NotImplementedError
+        fields = {k: v for k, v in asdict(request).items() if k != "id"}
+        update_query = {"$set": {k: v} for k, v in fields.items() if v}
+        await self._collection.find_one_and_update(
+            {"id": request.id},
+            update_query
+        )

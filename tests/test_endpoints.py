@@ -81,4 +81,4 @@ async def test_returns_200_on_update_game(client: AsyncClient) -> None:
     params = {k: v for k, v in asdict(game).items() if k != "id"}
     payload = models.GamePayload(**params).dict()
     result = await client.put(f"/game/{game.id}/", json=payload)
-    assert HTTPStatus.NOT_IMPLEMENTED == result.status_code
+    assert HTTPStatus.OK == result.status_code
