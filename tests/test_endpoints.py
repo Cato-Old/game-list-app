@@ -57,10 +57,22 @@ async def test_returns_200_on_get_game(
 
 
 @pytest.mark.anyio
-async def test_returns_200_on_delete_game(client: AsyncClient) -> None:
-    game = GameFactory()
+async def test_returns_200_on_delete_game(
+    client: AsyncClient,
+    collection: AsyncIOMotorCollection,
+) -> None:
+    games = GameFactory.build_batch(10)
+    game = games[0]
+    serialized = [models.Game(**asdict(g)).dict() for g in games]
+    await collection.insert_many(serialized)
     result = await client.delete(f"/game/{game.id}/")
+    games_in_db = collection.find({})
+    expected = [models.Game(**g).dict() async for g in games_in_db]
+    actual = [
+        models.Game(**asdict(g)).dict() for g in games if g.id != game.id
+    ]
     assert HTTPStatus.OK == result.status_code
+    assert expected == actual
 
 
 @pytest.mark.anyio

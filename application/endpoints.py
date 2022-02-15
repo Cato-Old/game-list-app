@@ -38,10 +38,7 @@ async def delete_game(
     game_id: str,
     controller: DeleteGameController = Depends(),
 ) -> None:
-    try:
-        await controller.delete(GameId(game_id))
-    except NotImplementedError:
-        raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
+    await controller.delete(GameId(game_id))
 
 
 @router.put("/game/{game_id}/")
