@@ -53,6 +53,7 @@ async def test_returns_200_on_get_game(
     await collection.insert_one(models.Game(**asdict(game)).dict())
     result = await client.post(f"/game/{game.id}/")
     assert HTTPStatus.OK == result.status_code
+    assert models.Game(**asdict(game)).dict() == result.json()
 
 
 @pytest.mark.anyio

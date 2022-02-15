@@ -17,7 +17,9 @@ router = APIRouter()
 
 
 @router.get("/games/")
-async def get_all_games(controller: AllGamesController = Depends()) -> list[models.Game]:
+async def get_all_games(
+    controller: AllGamesController = Depends(),
+) -> list[models.Game]:
     games = await controller.get_all()
     return [models.Game(**asdict(g)) for g in games]
 
@@ -26,11 +28,9 @@ async def get_all_games(controller: AllGamesController = Depends()) -> list[mode
 async def get_game(
     game_id: str,
     controller: GetGameController = Depends(),
-) -> None:
-    try:
-        await controller.get(GameId(game_id))
-    except NotImplementedError:
-        raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
+) -> models.Game:
+    game = await controller.get(GameId(game_id))
+    return models.Game(**asdict(game))
 
 
 @router.delete("/game/{game_id}/")
